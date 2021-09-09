@@ -2,7 +2,7 @@
  * koa-body <https://github.com/dlau/koa-body>
  * A koa body parser middleware with support for `multipart/form-data`,
  * `application/json` or `application/x-www-form-urlencoded` request bodies.
- * 
+ *
  * Copyright (c) 2014 Charlike Mike Reagent, Daryl Lau, contributors.
  * Released under the MIT license.
  */
@@ -39,7 +39,7 @@ describe('koa-body', function () {
    * DEFAULTS - multipart: false
    */
   it('should work with defaults - multipart: false, only `urlencoded` and `json` bodies', function (done) {
-    var app = koa();
+    var app = new koa();
 
     var usersResource = new Resource('users', {
       // GET /users
@@ -66,7 +66,7 @@ describe('koa-body', function () {
    * MULTIPART - FIELDS
    */
   it('should recieve `multipart` requests - fields on .body.fields object', function (done) {
-    var app = koa();
+    var app = new koa();
     var usersResource = new Resource('users', {
       // POST /users
       create: function *(next) {
@@ -109,7 +109,7 @@ describe('koa-body', function () {
    * MULTIPART - FILES
    */
   it('should recieve multiple fields and files via `multipart` on .body.files object', function (done) {
-    var app = koa();
+    var app = new koa();
     var usersResource = new Resource('users', {
       // POST /users
       create: function *(next) {
@@ -186,7 +186,7 @@ describe('koa-body', function () {
   });
 
   it('should can transform file names in multipart requests', function (done) {
-    var app = koa();
+    var app = new koa();
     var usersResource = new Resource('users', {
       // POST /users
       create: function *(next) {
@@ -235,7 +235,7 @@ describe('koa-body', function () {
    * URLENCODED request body
    */
   it('should recieve `urlencoded` request bodies', function (done) {
-    var app = koa();
+    var app = new koa();
     var usersResource = new Resource('users', {
       // POST /users
       create: function *(next) {
@@ -276,7 +276,7 @@ describe('koa-body', function () {
    * TEXT request body
    */
   it('should recieve `text` request bodies', function (done) {
-    var app = koa();
+    var app = new koa();
     var usersResource = new Resource('users', {
       // POST /users
       create: function *(next) {
@@ -500,7 +500,7 @@ describe('koa-body', function () {
    * FORM (urlencoded) LIMIT
    */
   it('should request 413 Payload Too Large, because of `formLimit`', function (done) {
-    var app = koa();
+    var app = new koa();
     var usersResource = new Resource('users', {
       // POST /users
       create: function *(next) {
@@ -528,7 +528,7 @@ describe('koa-body', function () {
    * JSON LIMIT
    */
   it('should request 413 Payload Too Large, because of `jsonLimit`', function (done) {
-    var app = koa();
+    var app = new koa();
     var usersResource = new Resource('users', {
       // POST /users
       create: function *(next) {
@@ -552,7 +552,7 @@ describe('koa-body', function () {
 
 
   it('should return empty body object with no content type', function (done) {
-      var app = koa();
+      var app = new koa();
       var usersResource = new Resource('users', {
         // POST /users
         create: function *(next) {
@@ -574,7 +574,7 @@ describe('koa-body', function () {
 
 
   it('should return empty body object with invalid content type', function (done) {
-      var app = koa();
+      var app = new koa();
       var usersResource = new Resource('users', {
         // POST /users
         create: function *(next) {
@@ -599,7 +599,7 @@ describe('koa-body', function () {
    * TEXT LIMIT
    */
   it('should request 413 Payload Too Large, because of `textLimit`', function (done) {
-    var app = koa();
+    var app = new koa();
     var usersResource = new Resource('users', {
       // POST /users
       create: function *(next) {

@@ -51,18 +51,18 @@ function requestbody(opts) {
     if (!opts.strict || ["GET", "HEAD", "DELETE"].indexOf(this.method.toUpperCase()) === -1) {
       try {
         if (opts.json && this.is('json'))  {
-          body = yield buddy.json(this, {encoding: opts.encoding, limit: opts.jsonLimit});
+          body = yield buddy.json(this, {encoding: opts.encoding, limit: opts.jsonLimit, returnRawBody: true});
         }
         else if (opts.urlencoded && this.is('urlencoded')) {
-          body = yield buddy.form(this, {encoding: opts.encoding, limit: opts.formLimit});
+          body = yield buddy.form(this, {encoding: opts.encoding, limit: opts.formLimit, returnRawBody: true});
         }
         else if (opts.text && this.is('text')) {
-          body = yield buddy.text(this, {encoding: opts.encoding, limit: opts.textLimit});
+          body = yield buddy.text(this, {encoding: opts.encoding, limit: opts.textLimit, returnRawBody: true});
         }
         else if (opts.multipart && this.is('multipart')) {
           body = yield formy(this, opts.formidable);
         }
-        
+
       } catch(parsingError) {
         if (typeof(opts.onError) === 'function') {
           opts.onError(parsingError, this);
@@ -73,10 +73,12 @@ function requestbody(opts) {
     }
 
     if (opts.patchNode) {
-      this.req.body = body;
+      this.req.body = body.parsed;
+      this.req.bodyRaw = body.raw;
     }
     if (opts.patchKoa) {
-      this.request.body = body;
+      this.request.body = body.parsed;
+      this.request.bodyRaw = body.raw;
     }
     yield next;
   };
