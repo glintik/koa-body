@@ -37,9 +37,11 @@ function requestbody(opts) {
   opts.multipart = 'multipart' in opts ? opts.multipart : false;
   opts.urlencoded = 'urlencoded' in opts ? opts.urlencoded : true;
   opts.json = 'json' in opts ? opts.json : true;
+  opts.xml = 'xml' in opts ? opts.xml : true;
   opts.text = 'text' in opts ? opts.text : true;
   opts.encoding  = 'encoding'  in opts ? opts.encoding  : 'utf-8';
-  opts.jsonLimit = 'jsonLimit' in opts ? opts.jsonLimit : '1mb';
+  opts.jsonLimit = 'jsonLimit' in opts ? opts.jsonLimit : '10mb';
+  opts.xmlLimit = 'xmlLimit' in opts ? opts.xmlLimit : '10mb';
   opts.formLimit = 'formLimit' in opts ? opts.formLimit : '56kb';
   opts.formidable = 'formidable' in opts ? opts.formidable : {};
   opts.textLimit = 'textLimit' in opts ? opts.textLimit : '56kb';
@@ -52,6 +54,9 @@ function requestbody(opts) {
       try {
         if (opts.json && this.is('json'))  {
           body = yield buddy.json(this, {encoding: opts.encoding, limit: opts.jsonLimit, returnRawBody: true});
+        }
+        else if (opts.xml && this.is('xml')) {
+          body = yield buddy.text(this, {encoding: opts.encoding, limit: opts.xmlLimit, returnRawBody: true});
         }
         else if (opts.urlencoded && this.is('urlencoded')) {
           body = yield buddy.form(this, {encoding: opts.encoding, limit: opts.formLimit, returnRawBody: true});
